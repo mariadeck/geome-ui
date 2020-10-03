@@ -1,3 +1,4 @@
+/*
 import { executeIfTransitionValid } from '../../utils/router';
 
 export default ($transitions, UserService, ProjectService) => {
@@ -22,3 +23,4 @@ export default ($transitions, UserService, ProjectService) => {
       ),
   );
 };
+*/

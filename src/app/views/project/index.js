@@ -14,7 +14,7 @@ import userService from '../../services/user.service';
 
 import routing from './project.routes';
 import requiresProject from './projectRequired.hook';
-import projectAdmin from './projectAdmin.hook';
+// import projectAdmin from './projectAdmin.hook';
 import config from './projects.config';
 
 import fimsProject from './project.component';
@@ -41,5 +41,5 @@ export default angular
   .config(config)
   .run(routing) // need to declare in run block. otherwise $transitions is not available
   .run(requiresProject)
-  .run(projectAdmin)
+  // .run(projectAdmin)
   .component('fimsProject', fimsProject).name;

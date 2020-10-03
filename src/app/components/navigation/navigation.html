@@ -59,7 +59,7 @@
       </md-list-item>
       <md-list-item
         ng-click="$ctrl.$state.go('project')"
-        ng-show="$ctrl.currentUser.userId === $ctrl.currentProject.user.userId"
+        ng-show="$ctrl.currentProject.currentUserIsMember"
       >
         <md-icon md-font-icon="fa fa-wrench fa-fw"></md-icon>
         <p>Project Settings</p>
