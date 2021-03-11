@@ -1,4 +1,4 @@
-function getStates() {
+/* function getStates() {
   return [
     {
       state: 'teams-list',
@@ -15,4 +15,4 @@ export default routerHelper => {
   'ngInject';
 
   routerHelper.configureStates(getStates());
-};
+}; */

@@ -1,4 +1,4 @@
-const template = require('./teams-list.html');
+/* const template = require('./teams-list.html');
 
 class TeamsListController {
   constructor(
@@ -44,26 +44,6 @@ class TeamsListController {
       });
   }
 
-  tallyStats(stats) {
-    /*  const networkApprovedStats = stats.data.filter(
-      project => project.projectConfiguration.networkApproved === true,
-    );
-    this.teams.forEach(team =>
-      networkApprovedStats.forEach(p => {
-        if (p.projectConfiguration.id === team.id)
-          Object.assign(
-            { team },
-            {
-              projects: {
-                id: p.projectId,
-                stats: p.entityStats,
-              },
-            },
-          );
-      }),
-    ); */
-  }
-
   searchTextChange(searchText) {
     if (searchText === '') {
       this.filteredTeams = this.teams;
@@ -92,13 +72,21 @@ class TeamsListController {
     // Check that project exists... if someone deletes a project from
     // team list we do not want this to fail
     if (this.currentProject == null) {
-    	console.log("could not find a team for team id " + Id + ". This happens when we delete a project and attempt a refresh and this project still exists.")
-        this.ProjectService.setCurrentProject(project, true).then(() => this.$state.go('team-overview'),);
+      console.log(
+        'could not find a team for team id ' +
+          Id +
+          '. This happens when we delete a project and attempt a refresh and this project still exists.',
+      );
+      this.ProjectService.setCurrentProject(project, true).then(() =>
+        this.$state.go('team-overview'),
+      );
     } else {
-        if (this.currentProject.projectConfiguration.id === Id)
-            this.$state.go('team-overview');
-        else
-            this.ProjectService.setCurrentProject(project, true).then(() => this.$state.go('team-overview'),);
+      if (this.currentProject.projectConfiguration.id === Id)
+        this.$state.go('team-overview');
+      else
+        this.ProjectService.setCurrentProject(project, true).then(() =>
+          this.$state.go('team-overview'),
+        );
     }
   }
 }
@@ -111,3 +99,4 @@ export default {
     currentProject: '<',
   },
 };
+*/

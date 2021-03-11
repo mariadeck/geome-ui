@@ -1,4 +1,4 @@
-import '../../../style/fims/_projectSelector.scss';
+/* import '../../../style/fims/_projectSelector.scss';
 
 const template = require('./projectSelector.html');
 
@@ -101,3 +101,4 @@ export default {
     isAuthenticated: '<',
   },
 };
+*/

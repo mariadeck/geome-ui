@@ -1,4 +1,4 @@
-import '../../../style/fims/_projectSelectorDialog.scss';
+/* import '../../../style/fims/_projectSelectorDialog.scss';
 
 const template = require('./projectSelectorDialog.html');
 
@@ -26,3 +26,4 @@ export default {
     userHasProject: '<',
   },
 };
+*/

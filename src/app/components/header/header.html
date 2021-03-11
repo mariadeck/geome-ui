@@ -11,6 +11,18 @@
 
   <div flex ng-show="!$ctrl.projectView && !$ctrl.showCreateProject"></div>
   <div flex layout="row" layout-align="center">
+    <div layout="row" layout-align="center center" ng-show="$ctrl.projectView">
+      <span ng-show="$ctrl.currentProject">
+        <a ui-sref="project-overview">
+          {{$ctrl.currentProject.projectTitle}}
+        </a>
+      </span>
+      <span ng-hide="$ctrl.currentProject">
+        <a ui-sref="dashboard">To continue, select workspace</a>
+      </span>
+    </div>
+  </div>
+  <!--div flex layout="row" layout-align="center">
     <project-selector
       layout="row"
       layout-align="center center"
@@ -22,7 +34,7 @@
       offset="0 12"
       button-class="md-primary"
     >
-    </project-selector>
+    </project-selector-->
     <div ng-show="$ctrl.showCreateProject" layout="row" layout-align="center">
       <md-button ui-sref="create-project" class="md-primary md-raised">
         Create Project
@@ -32,7 +44,7 @@
 
   <md-button hide-sm hide-xs ui-sref="about">Getting Started</md-button>
   <md-button hide-sm hide-xs ui-sref="query">Query</md-button>
-  <md-button hide-sm hide-xs ui-sref="dashboard">Workbench</md-button>
+  <md-button hide-sm hide-xs ui-sref="dashboard">Dashboard</md-button>
 
   <md-divider hide-lg hide-md></md-divider>
   <md-menu md-position-mode="right bottom" md-offset="0 12">

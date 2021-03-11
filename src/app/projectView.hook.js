@@ -19,6 +19,31 @@ export function checkProjectViewPresent(state) {
 
   return false;
 }
+// eventemitter is a little hack to communicate between componenets
+// that aren't wired together
+// you could probably use angulars native watcher to check rootscope
+// you can subscribe and emit events
+// you have to subscirbe a component to the event emiiter
+// for the component to see the change being emitted
+
+// the user object is getting reset in a hook, that hook runs when you reload the page
+// that isnt getting triggered when you do it the other way
+// when you click create project, it loads the page, the project gets selected
+// this has to do with some caching in the project service
+// the project service emits a call that gets cached
+// we tell it to ignore the cache
+// somewhere in the app theres a
+// set a debug function
+// set a breakpoint and watch the chrome console
+// as part of the reload angular makes another call
+// to project service.getProjectsForUser
+// that call (getProjectsForUser)
+// why does the angularreload not reload everything?
+// becasue its an internal reload
+// not a browser reload
+// its not reload all the initial services
+// the angularreload is just an internal reload
+// or just the data inside the app.
 
 export const ProjectViewHookEmitter = new EventEmitter();
 
@@ -32,11 +57,7 @@ export default (
 ) => {
   'ngInject';
 
-  let prevState;
-  $transitions.onSuccess({}, trans => {
-    prevState = trans.to().name;
-  });
-  // setup dialog for workbench states if no project is selected
+  // re-route to dashboard for Project View states if no project is selected
   $transitions.onBefore(
     { to: s => checkProjectViewPresent(s) && checkProjectRequired(s) },
     async trans => {
@@ -48,6 +69,12 @@ export default (
         return Promise.resolve();
       }
 
+      // we set up this function checking that transition
+      // is valid but if the hook event finished
+      // this just stops the watch
+      // stop the watcher when the transition ends
+      // read about what the watch function is actually
+      // you only have to replace
       const unWatch = $rootScope.$watch(
         () => isTransitionValid(trans, $transitions),
         valid => {
@@ -93,42 +120,8 @@ export default (
         if (res.data.length === 1) return setProject(res.data[0]);
       } catch (e) {}
 
-      const scope = Object.assign($rootScope.$new(true), {
-        isAuthenticated,
-        userHasProject: isAuthenticated && currentUser.userHasProject,
-      });
-
-      return $mdDialog
-        .show({
-          template:
-            '<project-selector-dialog is-authenticated="isAuthenticated" user-has-project="userHasProject"></project-selector-dialog>',
-          scope,
-        })
-        .then(setProject)
-        .catch(targetState =>
-          executeIfTransitionValid(trans, $transitions, () => {
-            if (targetState && targetState.withParams) {
-              return targetState.withParams({
-                nextState: trans.to(),
-                nextStateParams: trans.to().params,
-              });
-            }
-
-            const state = prevState || 'home';
-
-            const { stateService } = trans.router;
-            let target = stateService.target(state);
-
-            if (
-              !UserService.currentUser() &&
-              checkProjectViewPresent(target.state().$$state())
-            ) {
-              target = stateService.target('home');
-            }
-
-            return target;
-          }),
-        );
+      const { stateService } = trans.router;
+      return stateService.target('dashboard');
     },
     { priority: 50 },
   );

@@ -1,4 +1,4 @@
-<md-menu md-position-mode="left bottom" md-offset="{{ $ctrl.offset }}" class="project-selector">
+<!--md-menu md-position-mode="left bottom" md-offset="{{ $ctrl.offset }}" class="project-selector">
   <md-button class="md-icon-button {{ $ctrl.buttonClass }}" ng-click="$mdMenu.open($event)">
     <span ng-show="$ctrl.currentProject">{{ $ctrl.currentProject.projectTitle }}</span>
     <span ng-show="!$ctrl.currentProject">Choose a Project</span>
@@ -9,7 +9,6 @@
       <div layout="row" layout-align="center center">
         <div layout="column">
           Switch Project
-          <!-- pointer-events is a workaround for https://github.com/angular/material/issues/6662 -->
           <div
             ng-if="!$ctrl.userHasProject && $ctrl.isAuthenticated"
             class="hint"
@@ -22,7 +21,6 @@
           </div>
         </div>
         <div class="project-selector-action">
-          <!-- pointer-events is a workaround for https://github.com/angular/material/issues/6662 -->
           <md-button
             class="small"
             ng-click="$ctrl.signIn()"
@@ -87,4 +85,4 @@
       </md-menu-item>
     </div>
   </md-menu-content>
-</md-menu>
+</md-menu-->

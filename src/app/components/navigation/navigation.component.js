@@ -1,3 +1,12 @@
+/* Ideas: have workspace 'conditions:'
+1. Team Selected
+2. Public project selected
+3. Private project selected
+4 Discoverable
+If NONE of these are selected, then we need to hook it:
+re-direct to 'dashboard' view/ project selector
+ */
+
 const template = require('./navigation.html');
 
 class NavigationController {

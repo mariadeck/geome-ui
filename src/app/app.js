@@ -46,7 +46,7 @@ import query from './views/query';
 import projectOverview from './views/project-overview';
 import teamOverview from './views/team-overview';
 import dashboard from './views/dashboard';
-import teamsList from './views/teams-list';
+// import teamsList from './views/teams-list';
 import record from './views/record';
 import photoUpload from './views/photo-upload';
 import sraUpload from './views/sra-upload';
@@ -65,7 +65,8 @@ import navigation from './components/navigation';
 import mdFileUpload from './components/md-file-upload';
 // import lookup from './components/lookup';
 import users from './components/users';
-import projectSelectorDialog from './components/project-selector-dialog';
+// import projectSelectorDialog from './components/project-selector-dialog';
+import projectView from './components/project-view';
 import collaboration from './components/tk-labels/collaboration-label';
 import attribution from './components/tk-labels/attribution-label';
 import notice from './components/tk-labels/notice-label';
@@ -117,7 +118,7 @@ const dependencies = [
   projectOverview,
   teamOverview,
   dashboard,
-  teamsList,
+  // teamsList,
   record,
   photoUpload,
   sraUpload,
@@ -130,7 +131,8 @@ const dependencies = [
   createProject,
   projectConfig,
   users,
-  projectSelectorDialog,
+  // projectSelectorDialog,
+  projectView,
   collaboration,
   attribution,
   notice,

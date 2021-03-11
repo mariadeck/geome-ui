@@ -23,6 +23,8 @@ class ProjectOverviewController {
   }
 
   $onInit() {
+    console.log(this.stats);
+    console.log(this.private);
     this.url = this.$location.absUrl().split('?')[0];
     this.templateUrl = this.url.replace('project-overview', 'template');
     this.loading = true;
@@ -227,5 +229,7 @@ export default {
   bindings: {
     currentUser: '<',
     currentProject: '<',
+    stats: '<',
+    private: '<',
   },
 };

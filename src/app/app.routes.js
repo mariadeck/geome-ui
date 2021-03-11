@@ -6,11 +6,13 @@ function getStates() {
         url: '/workbench',
         abstract: true,
         projectRequired: true,
-        views: {
-          projectView: {
-            template:
-              '<ui-view layout="column" class="layout-fill" ng-cloak current-project="$ctrl.currentProject" current-user="$ctrl.currentUser"/>',
-          },
+        component: 'fimsProjectView',
+        resolve: {
+          stats: /* @ngInject */ ProjectService => ProjectService.stats(),
+          private: /* @ngInject */ ProjectService => ProjectService.all(),
+          public: /* @ngInject */ ProjectService => ProjectService.all(true),
+          teams: /* @ngInject */ ProjectConfigurationService =>
+            ProjectConfigurationService.all(true),
         },
       },
     },

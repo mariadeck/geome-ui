@@ -4,7 +4,6 @@ import { USER_CHANGED_EVENT } from './services/user.service';
 import {
   ProjectViewHookEmitter,
   LOADING_PROJECT_EVENT,
-  FINISHED_LOADING_PROJECT_EVENT,
   checkProjectViewPresent,
   STARTED_HOOK_EVENT,
   ENDED_HOOK_EVENT,
@@ -12,9 +11,31 @@ import {
 import { setUser, setProject } from './fims-analytics';
 
 const template = require('./app.html');
+// somewhere in the app, I want to insert the idea of workspace. We have 4 options.
+// Public Project, user is not member or admin
+// Discoverable Project, user is not member or admin
+// Public, discoverable, or private project, user is member or admin
+// Team selected
+
+// how can we include the idea of "half loaded states"
+// like, get the api call going, but continue to load the view. then when the
+// data resolves, load the rest of the view.
+// the navigation bar, right now, is waiting for the projectView
+// the navigation can render just so long as we know whether or not we have a current project
+// and what that current projects specs are. does not have to wait until the project data is loaded
+// entirely.
+// can we go ahead and make a new named viewport, something like "workspace viewport" and inside THAT
+// we resolve our all projects data?
 
 class AppCtrl {
-  constructor($state, $transitions, UserService, ProjectService, AuthService) {
+  constructor(
+    $state,
+    $transitions,
+    UserService,
+    ProjectService,
+    AuthService,
+    $timeout,
+  ) {
     'ngInject';
 
     this.ProjectService = ProjectService;
@@ -22,6 +43,7 @@ class AppCtrl {
     this.AuthService = AuthService;
     this.$state = $state;
     this.$transitions = $transitions;
+    this.$timeout = $timeout;
     this.projectView = false;
   }
 
@@ -29,8 +51,17 @@ class AppCtrl {
     this.loading = true;
     this.preventReload = false;
     this.showSideNavigation = false;
+    this.authCheck();
+    this.projectChanged();
+    this.userChanged();
+    this.showSpinnerOnTransitions();
+  }
 
+  authCheck() {
     this.AuthService.on(AUTH_ERROR_EVENT, () => this.signout());
+  }
+
+  projectChanged() {
     this.ProjectService.on(PROJECT_CHANGED_EVENT, (p, ignoreReload) => {
       this.currentProject = p;
       this.setUserIsMember();
@@ -43,7 +74,9 @@ class AppCtrl {
         this.$state.reload();
       }
     });
+  }
 
+  userChanged() {
     this.UserService.on(USER_CHANGED_EVENT, (u, ignoreReload) => {
       this.currentUser = u;
       if (u) {
@@ -62,7 +95,9 @@ class AppCtrl {
         this.$state.reload();
       }
     });
+  }
 
+  showSpinnerOnTransitions() {
     ProjectViewHookEmitter.on(LOADING_PROJECT_EVENT, () => {
       this.loading = true;
     });
@@ -73,7 +108,6 @@ class AppCtrl {
       this.preventReload = false;
     });
 
-    // show spinner on transitions
     this.$transitions.onStart({}, trans => {
       const hasResolvables = s => {
         if (s.showLoading === false) return false;
@@ -93,9 +127,7 @@ class AppCtrl {
   }
 
   setUserHasProject() {
-    this.ProjectService.all().then(({ data }) => {
-      this.currentUser.userHasProject = data.length > 0;
-    });
+    this.currentUser.userHasProject = this.private.data.length > 0;
   }
 
   setUserIsMember() {
@@ -104,12 +136,9 @@ class AppCtrl {
         this.currentProject.currentUserIsMember = false;
         return;
       }
-
-      this.ProjectService.all().then(({ data }) => {
-        this.currentProject.currentUserIsMember = data.some(
-          p => p.projectId === this.currentProject.projectId,
-        );
-      });
+      this.currentProject.currentUserIsMember = this.public.data.some(
+        p => p.projectId === this.currentProject.projectId,
+      );
     }
   }
 
@@ -135,4 +164,10 @@ class AppCtrl {
 export default {
   template,
   controller: AppCtrl,
+  /*  bindings: {
+    private: '<',
+    test: '<',
+    public: '<',
+    teams: '<',
+  }, */
 };

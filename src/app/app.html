@@ -30,14 +30,15 @@
       >
         <md-progress-circular md-mode="indeterminate"></md-progress-circular>
       </div>
-
-      <main ng-show="!$ctrl.loading" flex layout="column">
+      <!-- i want to make this section its own special state, so that I can resolve the data only for this part
+-->
+      <main ng-if="!$ctrl.loading" flex layout="column">
         <div
           class="project-view"
           flex
-          ui-view="projectView"
           current-project="$ctrl.currentProject"
           current-user="$ctrl.currentUser"
+          ui-view
           ng-cloak
         ></div>
       </main>
